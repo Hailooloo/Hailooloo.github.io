@@ -3,303 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>绿茵人格：足球球星匹配测试</title>
+    <title>互动体验集合馆</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700;900&display=swap');
         
         body {
             font-family: 'Noto Sans SC', sans-serif;
-            background: #0f172a;
+            background: #020617;
             color: #f8fafc;
-            overflow-x: hidden;
+            overflow: hidden;
+            height: 100vh;
         }
 
-        .glass-card {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(12px);
+        .portal-container {
+            background: radial-gradient(circle at center, #1e293b 0%, #020617 100%);
+        }
+
+        .entry-card {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .option-card {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
+        .entry-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: rgba(59, 130, 246, 0.5);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
         }
 
-        .option-card:hover {
-            transform: translateY(-2px);
-            background: rgba(59, 130, 246, 0.2);
-            border-color: #3b82f6;
+        .card-bg {
+            position: absolute;
+            inset: 0;
+            opacity: 0.2;
+            transition: opacity 0.5s;
+            z-index: 0;
         }
 
-        .progress-bar {
-            transition: width 0.5s ease-in-out;
+        .entry-card:hover .card-bg {
+            opacity: 0.4;
         }
 
-        .fade-in {
-            animation: fadeIn 0.5s ease-out forwards;
+        .floating {
+            animation: floating 3s ease-in-out infinite;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes floating {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #60a5fa 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
     </style>
 </head>
-<body class="min-h-screen flex items-center justify-center p-4">
+<body class="portal-container flex flex-col items-center justify-center p-6">
 
-    <div id="app" class="w-full max-w-2xl">
-        <!-- 进度条 -->
-        <div id="progress-container" class="hidden mb-8">
-            <div class="flex justify-between mb-2 text-sm font-medium">
-                <span id="progress-text">问题 1 / 6</span>
-                <span id="progress-percent">0%</span>
-            </div>
-            <div class="w-full bg-slate-800 rounded-full h-2.5">
-                <div id="progress-bar" class="progress-bar bg-blue-500 h-2.5 rounded-full" style="width: 0%"></div>
-            </div>
-        </div>
+    <!-- 标题区域 -->
+    <header class="text-center mb-12 animate-fade-in">
+        <h1 class="text-3xl md:text-5xl font-black mb-4 tracking-tight">探索<span class="gradient-text">互动实验室</span></h1>
+        <p class="text-slate-400 text-sm md:text-base">选择一个维度进入沉浸式互动体验</p>
+    </header>
 
-        <!-- 主内容区域 -->
-        <div id="content" class="glass-card rounded-3xl p-8 shadow-2xl">
-            <!-- 开始页面 -->
-            <div id="start-screen" class="text-center space-y-6">
-                <div class="inline-block p-4 rounded-full bg-blue-500/20 mb-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
+    <!-- 入口集合 -->
+    <main class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-4xl">
+        
+        <!-- 入口 1: 足球测试 -->
+        <a href="index.html" class="entry-card group bg-slate-900/50 backdrop-blur-xl rounded-3xl p-8 flex flex-col items-center text-center">
+            <div class="card-bg bg-[url('https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&q=80&w=500')] bg-cover"></div>
+            <div class="relative z-10">
+                <div class="w-20 h-20 bg-blue-500/20 rounded-2xl flex items-center justify-center mb-6 mx-auto group-hover:bg-blue-500/30 transition-colors">
+                    <span class="text-5xl floating">⚽</span>
                 </div>
-                <h1 class="text-4xl font-extrabold tracking-tight">寻找你的<span class="text-blue-500">足球人格</span></h1>
-                <p class="text-slate-400 text-lg">通过 6 个简单的问题，匹配最符合你球风与性格的现役顶级球星。</p>
-                <button onclick="startQuiz()" class="w-full sm:w-auto px-10 py-4 bg-blue-600 hover:bg-blue-500 rounded-xl font-bold text-lg transition-all shadow-lg shadow-blue-500/25">
-                    开始测试
-                </button>
-            </div>
-
-            <!-- 测试页面 -->
-            <div id="quiz-screen" class="hidden space-y-6">
-                <h2 id="question-title" class="text-2xl font-bold mb-8">问题标题</h2>
-                <div id="options-container" class="grid gap-4">
-                    <!-- 选项由 JS 注入 -->
+                <h2 class="text-2xl font-bold mb-3">球星性格匹配</h2>
+                <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                    通过 6 道专业心理测试题，精准匹配与你灵魂共鸣的现役足球巨星。
+                </p>
+                <div class="inline-flex items-center text-blue-400 font-bold group-hover:translate-x-2 transition-transform">
+                    开启测试 <span class="ml-2">→</span>
                 </div>
             </div>
+        </a>
 
-            <!-- 结果页面 -->
-            <div id="result-screen" class="hidden text-center space-y-6 fade-in">
-                <div class="text-blue-400 font-bold uppercase tracking-widest text-sm">你的匹配球星是</div>
-                <h2 id="player-name" class="text-5xl font-black mb-2">里奥·梅西</h2>
-                
-                <div class="relative inline-block w-48 h-48 my-6">
-                    <div class="absolute inset-0 bg-blue-500 blur-3xl opacity-20 rounded-full"></div>
-                    <div id="player-icon" class="relative z-10 w-full h-full glass-card rounded-2xl flex items-center justify-center text-6xl">
-                        ⚽
-                    </div>
+        <!-- 入口 2: 粒子模拟 -->
+        <!-- 注意：这里的 href 指向粒子系统的 html 文件名 -->
+        <a href="particles.html" class="entry-card group bg-slate-900/50 backdrop-blur-xl rounded-3xl p-8 flex flex-col items-center text-center">
+            <div class="card-bg bg-[url('https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&q=80&w=500')] bg-cover"></div>
+            <div class="relative z-10">
+                <div class="w-20 h-20 bg-purple-500/20 rounded-2xl flex items-center justify-center mb-6 mx-auto group-hover:bg-purple-500/30 transition-colors">
+                    <span class="text-5xl floating" style="animation-delay: 0.5s;">✨</span>
                 </div>
-
-                <div class="text-left space-y-4">
-                    <div class="bg-slate-800/50 p-6 rounded-2xl border border-white/5">
-                        <h3 class="text-blue-400 font-bold mb-2">性格与球风解读</h3>
-                        <p id="player-desc" class="leading-relaxed text-slate-300 italic">球星描述</p>
-                    </div>
-                    <div class="bg-blue-500/10 p-6 rounded-2xl border border-blue-500/20">
-                        <h3 class="text-blue-200 font-bold mb-2">为什么匹配？</h3>
-                        <p id="player-why" class="text-blue-100 text-sm">匹配理由</p>
-                    </div>
+                <h2 class="text-2xl font-bold mb-3">物理粒子模拟</h2>
+                <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                    感受重力、摩擦力与引力的交织。支持点击交互、碰撞回弹与指尖引力。
+                </p>
+                <div class="inline-flex items-center text-purple-400 font-bold group-hover:translate-x-2 transition-transform">
+                    进入实验室 <span class="ml-2">→</span>
                 </div>
-
-                <button onclick="location.reload()" class="mt-8 text-slate-500 hover:text-white transition-colors underline underline-offset-4">
-                    重新测试
-                </button>
             </div>
-        </div>
-    </div>
+        </a>
 
-    <script>
-        const questions = [
-            {
-                title: "你在场上最依赖的“致命武器”是什么？",
-                options: [
-                    { text: "爆发性的速度与身体对抗", trait: "power" },
-                    { text: "手术刀般的传球视野", trait: "vision" },
-                    { text: "华丽细腻的盘带与技术", trait: "skill" },
-                    { text: "密不透风的防守意识", trait: "def" }
-                ]
-            },
-            {
-                title: "在大赛中，你的心态通常是怎样的？",
-                options: [
-                    { text: "冷静沉稳，在沉默中观察对手", trait: "calm" },
-                    { text: "充满激情，用吼声和斗志鼓舞全队", trait: "passion" },
-                    { text: "天生的领袖，指挥队友的站位", trait: "leader" },
-                    { text: "低调务实，只专注于完成自己的工作", trait: "humble" }
-                ]
-            },
-            {
-                title: "比赛第90分钟落后1球，你会如何决策？",
-                options: [
-                    { text: "索要球权，尝试个人能力解决战斗", trait: "solo" },
-                    { text: "冷静调度，寻找位置最好的队友助攻", trait: "team" },
-                    { text: "死守防线防止反击，等待最后一击机会", trait: "tactical" },
-                    { text: "疯狂奔跑拉扯空间，为队友创造机会", trait: "workrate" }
-                ]
-            },
-            {
-                title: "球场上的哪个区域是你的“办公室”？",
-                options: [
-                    { text: "禁区附近，等待最后一击的机会", trait: "finisher" },
-                    { text: "边路长廊，利用宽度进行冲击", trait: "wing" },
-                    { text: "中圈核心，掌控全场的节奏", trait: "mid" },
-                    { text: "防守三区，守护自家的球门", trait: "back" }
-                ]
-            },
-            {
-                title: "你最看重队友的哪种特质？",
-                options: [
-                    { text: "过人的灵性与创造力", trait: "skill" },
-                    { text: "永不言弃的热血斗志", trait: "passion" },
-                    { text: "严密的战术素养与跑位", trait: "tactical" },
-                    { text: "稳定可靠的防守能力", trait: "def" }
-                ]
-            },
-            {
-                title: "进球后你会如何庆祝？",
-                options: [
-                    { text: "经典的标志性个人动作", trait: "solo" },
-                    { text: "第一时间找助攻者合影/拥抱", trait: "team" },
-                    { text: "淡定地握拳示意，迅速准备开球", trait: "calm" },
-                    { text: "冲向看台与球迷疯狂互动", trait: "passion" }
-                ]
-            }
-        ];
+    </main>
 
-        // 匹配逻辑数据库
-        const players = {
-            "里奥·梅西": {
-                icon: "🐐",
-                desc: "绿茵场上的艺术家。你拥有无与伦比的天赋，在沉默中用惊人的视野和技术统治比赛。你不需要大声喧哗，你的双脚就是最强的武器。",
-                why: "你的冷静、细腻的技术以及对比赛的全局掌控力与阿根廷球王完美契合。",
-                traits: ["skill", "vision", "calm", "team"]
-            },
-            "克里斯蒂亚诺·罗纳尔多": {
-                icon: "🦾",
-                desc: "极致的职业典范。你拥有不可动摇的求胜欲望和强大的力量。你是关键时刻最值得信赖的终结者。",
-                why: "你对进球的渴望、对训练的自律以及充满激情的个人主义精神极具C罗色彩。",
-                traits: ["power", "finisher", "passion", "solo"]
-            },
-            "凯文·德布劳内": {
-                icon: "🎯",
-                desc: "中场节拍器与助攻大师。你能够看到别人看不到的传球线路，用精准的调度让比赛变得简单。",
-                why: "你对空间的理解和手术刀般的传球视野，让你成为了球队的“大脑”。",
-                traits: ["vision", "mid", "calm", "team"]
-            },
-            "埃尔林·哈兰德": {
-                icon: "🤖",
-                desc: "进球机器。你拥有恐怖的爆发力和身体素质，天生为终结比赛而生。你是对手防线的噩梦。",
-                why: "你那简洁高效的踢球风格和在禁区内的绝对爆发力完全是魔人的风范。",
-                traits: ["power", "finisher", "calm", "solo"]
-            },
-            "祖德·贝林厄姆": {
-                icon: "💎",
-                desc: "全能型中场新星。你小小年纪便展现出领袖气质，攻防两端无处不在。你不仅有技术，更有强大的热血斗志。",
-                why: "你那充满激情的踢球方式和关键时刻的领袖担当，是伯纳乌新宠的缩影。",
-                traits: ["passion", "mid", "leader", "workrate"]
-            },
-            "维吉尔·范戴克": {
-                icon: "🧱",
-                desc: "后防铁闸。你的存在感能让队友感到安心，你是防线上的统帅。冷静、高大且极具统治力。",
-                why: "你沉稳的防守风格和在后防线上的指挥能力，让你成为了球队的“一夫当关”。",
-                traits: ["def", "leader", "calm", "back"]
-            },
-            "罗德里": {
-                icon: "⚖️",
-                desc: "低调的核心。你并不追求华丽的动作，但你是球队最稳固的基石。你负责干脏活累活，也是球队节奏的掌控者。",
-                why: "你那低调务实的性格和极致的战术素养，是金球先生级别的中场屏障。",
-                traits: ["def", "mid", "humble", "tactical"]
-            },
-            "孙兴慜": {
-                icon: "🇰🇷",
-                desc: "亚洲之光，超级跑车。你拥有惊人的冲刺速度和左右开弓的射门技术，同时始终保持着谦逊与敬业。",
-                why: "你的极致速度与低调谦虚的性格完美匹配。",
-                traits: ["speed", "wing", "humble", "workrate"]
-            }
-        };
+    <!-- 页脚 -->
+    <footer class="mt-16 text-slate-600 text-xs">
+        © 2024 Interactive Lab. All Rights Reserved.
+    </footer>
 
-        let currentQuestion = 0;
-        let scores = {};
-
-        function startQuiz() {
-            document.getElementById('start-screen').classList.add('hidden');
-            document.getElementById('progress-container').classList.remove('hidden');
-            document.getElementById('quiz-screen').classList.remove('hidden');
-            showQuestion();
-        }
-
-        function showQuestion() {
-            const q = questions[currentQuestion];
-            document.getElementById('question-title').innerText = q.title;
-            const container = document.getElementById('options-container');
-            container.innerHTML = '';
-            
-            q.options.forEach(opt => {
-                const div = document.createElement('div');
-                div.className = 'option-card glass-card p-6 rounded-2xl flex justify-between items-center text-lg font-medium';
-                div.innerHTML = `<span>${opt.text}</span><span class="text-blue-500">→</span>`;
-                div.onclick = () => handleSelect(opt.trait);
-                container.appendChild(div);
-            });
-
-            updateProgress();
-        }
-
-        function handleSelect(trait) {
-            scores[trait] = (scores[trait] || 0) + 1;
-            
-            if (currentQuestion < questions.length - 1) {
-                currentQuestion++;
-                const quizScreen = document.getElementById('quiz-screen');
-                quizScreen.classList.remove('fade-in');
-                void quizScreen.offsetWidth; // 触发重绘以执行动画
-                quizScreen.classList.add('fade-in');
-                showQuestion();
-            } else {
-                showResult();
-            }
-        }
-
-        function updateProgress() {
-            const percent = Math.round((currentQuestion / questions.length) * 100);
-            document.getElementById('progress-bar').style.width = percent + '%';
-            document.getElementById('progress-percent').innerText = `${percent}%`;
-            document.getElementById('progress-text').innerText = `问题 ${currentQuestion + 1} / ${questions.length}`;
-        }
-
-        function showResult() {
-            document.getElementById('quiz-screen').classList.add('hidden');
-            document.getElementById('progress-container').classList.add('hidden');
-            document.getElementById('result-screen').classList.remove('hidden');
-
-            let bestMatch = "里奥·梅西";
-            let maxScore = -1;
-
-            // 简单的匹配算法：计算得分最高的人格画像
-            for (let name in players) {
-                let currentMatchScore = 0;
-                players[name].traits.forEach(trait => {
-                    if (scores[trait]) currentMatchScore += scores[trait];
-                });
-
-                if (currentMatchScore > maxScore) {
-                    maxScore = currentMatchScore;
-                    bestMatch = name;
-                }
-            }
-
-            const p = players[bestMatch];
-            document.getElementById('player-name').innerText = bestMatch;
-            document.getElementById('player-icon').innerText = p.icon;
-            document.getElementById('player-desc').innerText = p.desc;
-            document.getElementById('player-why').innerText = p.why;
-        }
-    </script>
 </body>
 </html>
