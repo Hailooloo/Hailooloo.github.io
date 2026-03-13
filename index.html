@@ -2,22 +2,36 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>互动体验集合馆</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700;900&display=swap');
         
+        :root {
+            --bg-deep: #020617;
+        }
+
         body {
             font-family: 'Noto Sans SC', sans-serif;
-            background: #020617;
+            background-color: var(--bg-deep);
             color: #f8fafc;
-            overflow: hidden;
-            height: 100vh;
+            margin: 0;
+            padding: 0;
+            /* 关键修复：确保 body 允许滚动 */
+            min-height: 100vh;
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
         }
 
         .portal-container {
             background: radial-gradient(circle at center, #1e293b 0%, #020617 100%);
+            background-attachment: fixed; /* 背景固定，内容滚动 */
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .entry-card {
@@ -25,24 +39,34 @@
             position: relative;
             overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.1);
+            /* 设置最小高度确保内容不被压缩 */
+            min-height: 280px;
         }
 
-        .entry-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            border-color: rgba(59, 130, 246, 0.5);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        /* 移动端特殊优化：点击态效果替代悬停 */
+        .entry-card:active {
+            transform: scale(0.98);
+            background: rgba(30, 41, 59, 0.8);
+        }
+
+        @media (min-width: 768px) {
+            .entry-card:hover {
+                transform: translateY(-10px) scale(1.02);
+                border-color: rgba(59, 130, 246, 0.5);
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            }
         }
 
         .card-bg {
             position: absolute;
             inset: 0;
-            opacity: 0.2;
+            opacity: 0.15;
             transition: opacity 0.5s;
             z-index: 0;
         }
 
         .entry-card:hover .card-bg {
-            opacity: 0.4;
+            opacity: 0.3;
         }
 
         .floating {
@@ -59,101 +83,104 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+
+        /* 自定义滚动条样式 */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #020617;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 10px;
+        }
     </style>
 </head>
-<body class="portal-container flex flex-col items-center justify-center p-6">
+<body class="portal-container">
 
-    <!-- 标题区域 -->
-    <header class="text-center mb-12 animate-fade-in">
-        <h1 class="text-3xl md:text-5xl font-black mb-4 tracking-tight">H-W-H<span class="gradient-text">的探索互动实验室</span></h1>
+    <!-- 标题区域 - 减小了移动端的下边距 -->
+    <header class="text-center mt-12 mb-8 md:mb-12 px-4 animate-fade-in">
+        <h1 class="text-3xl md:text-5xl font-black mb-3 tracking-tight">H-W-H<span class="gradient-text">的探索互动实验室</span></h1>
         <p class="text-slate-400 text-sm md:text-base">选择一个维度进入沉浸式互动体验</p>
     </header>
 
-    <!-- 入口集合 --- 使用 2x2 网格布局 -->
-    <main class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-5xl">
-        <!-- 入口 1: 转盘抽奖 -->
-        <!-- 注意：这里的 href 指向幸运大转盘 html 文件名 -->
-        <a href="https://hailooloo.github.io/Lottery/" target="_blank" class="entry-card group bg-slate-900/50 backdrop-blur-xl rounded-3xl p-8 flex flex-col items-center text-center">
+    <!-- 入口集合 - 优化网格间距 -->
+    <main class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 w-full max-w-5xl px-6 pb-12">
+        
+        <!-- 入口 1: 幸运大转盘 -->
+        <a href="https://hailooloo.github.io/Lottery/" target="_blank" class="entry-card group bg-slate-900/50 backdrop-blur-xl rounded-3xl p-6 md:p-8 flex flex-col items-center text-center">
             <div class="card-bg bg-[url('https://images.unsplash.com/photo-1657782887506-2b5d1eb3bc4c?auto=format&fit=crop&q=80&w=500')] bg-cover"></div>
             <div class="relative z-10">
-                <div class="w-20 h-20 bg-red-500/20 rounded-2xl flex items-center justify-center mb-6 mx-auto group-hover:bg-purple-500/30 transition-colors">
-                    <span class="text-5xl floating" style="animation-delay: 0.5s;">🎰</span>
+                <div class="w-16 h-16 md:w-20 md:h-20 bg-amber-500/20 rounded-2xl flex items-center justify-center mb-4 md:mb-6 mx-auto group-hover:bg-amber-500/30 transition-colors">
+                    <span class="text-4xl md:text-5xl floating" style="animation-delay: 0.2s;">🎰</span>
                 </div>
-                <h2 class="text-2xl font-bold mb-3">幸运大转盘</h2>
-                <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                <h2 class="text-xl md:text-2xl font-bold mb-2 md:mb-3">幸运大转盘</h2>
+                <p class="text-slate-400 text-xs md:text-sm leading-relaxed mb-4 md:mb-6">
                    新春压岁钱红包，单轮最高可抽10次，机会多多，幸运多多。
                 </p>
-                <div class="inline-flex items-center text-yellow-400 font-bold group-hover:translate-x-2 transition-transform">
-                    马上抽奖 <span class="ml-2">→</span>
+                <div class="inline-flex items-center text-amber-400 text-sm md:text-base font-bold group-hover:translate-x-2 transition-transform">
+                   马上抽奖 <span class="ml-2">→</span>
                 </div>
             </div>
         </a>
-        <!-- 入口 2: 足球测试 -->
-        <a href="https://hailooloo.github.io/FootballerTest/" target="_blank" class="entry-card group bg-slate-900/50 backdrop-blur-xl rounded-3xl p-8 flex flex-col items-center text-center">
-            <div class="card-bg bg-[url('https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&q=80&w=500')] bg-cover"></div>
-            <div class="relative z-10">
-                <div class="w-20 h-20 bg-blue-500/20 rounded-2xl flex items-center justify-center mb-6 mx-auto group-hover:bg-blue-500/30 transition-colors">
-                    <span class="text-5xl floating">⚽</span>
-                </div>
-                <h2 class="text-2xl font-bold mb-3">球星性格匹配</h2>
-                <p class="text-slate-400 text-sm leading-relaxed mb-6">
-                    通过 6 道专业心理测试题，精准匹配与你灵魂共鸣的现役足球巨星。
-                </p>
-                <div class="inline-flex items-center text-blue-400 font-bold group-hover:translate-x-2 transition-transform">
-                    开启测试 <span class="ml-2">→</span>
-                </div>
-            </div>
-        </a>
-        <!-- 入口 3: 粒子模拟 -->
-        <!-- 注意：这里的 href 指向粒子系统的 html 文件名 -->
-        <a href="https://hailooloo.github.io/Particals/" target="_blank" class="entry-card group bg-slate-900/50 backdrop-blur-xl rounded-3xl p-8 flex flex-col items-center text-center">
+
+        <!-- 入口 2: 粒子模拟 -->
+        <a href="https://hailooloo.github.io/Particals/" target="_blank" class="entry-card group bg-slate-900/50 backdrop-blur-xl rounded-3xl p-6 md:p-8 flex flex-col items-center text-center">
             <div class="card-bg bg-[url('https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&q=80&w=500')] bg-cover"></div>
             <div class="relative z-10">
-                <div class="w-20 h-20 bg-purple-500/20 rounded-2xl flex items-center justify-center mb-6 mx-auto group-hover:bg-purple-500/30 transition-colors">
-                    <span class="text-5xl floating" style="animation-delay: 0.5s;">✨</span>
+                <div class="w-16 h-16 md:w-20 md:h-20 bg-purple-500/20 rounded-2xl flex items-center justify-center mb-4 md:mb-6 mx-auto group-hover:bg-purple-500/30 transition-colors">
+                    <span class="text-4xl md:text-5xl floating" style="animation-delay: 0.5s;">✨</span>
                 </div>
-                <h2 class="text-2xl font-bold mb-3">物理粒子模拟</h2>
-                <p class="text-slate-400 text-sm leading-relaxed mb-6">
-                    感受重力、摩擦力与引力的交织。支持点击交互、碰撞回弹与指尖引力。
+                <h2 class="text-xl md:text-2xl font-bold mb-2 md:mb-3">物理粒子模拟</h2>
+                <p class="text-slate-400 text-xs md:text-sm leading-relaxed mb-4 md:mb-6">
+                    感受重力与引力的交织。支持点击交互、碰撞回弹与指尖引力。
                 </p>
-                <div class="inline-flex items-center text-purple-400 font-bold group-hover:translate-x-2 transition-transform">
+                <div class="inline-flex items-center text-purple-400 text-sm md:text-base font-bold group-hover:translate-x-2 transition-transform">
                     进入实验室 <span class="ml-2">→</span>
                 </div>
             </div>
         </a>
-         <!-- 入口 4: 敬请期待 (新增) -->
-        <a href="#" class="entry-card group bg-slate-900/50 backdrop-blur-xl rounded-3xl p-8 flex flex-col items-center text-center opacity-80">
-            <div class="card-bg bg-[url('https://images.unsplash.com/photo-1614850523296-d8c1af93d400?auto=format&fit=crop&q=80&w=500')] bg-cover"></div>
+
+        <!-- 入口 3: 足球测试 -->
+        <a href="index.html" class="entry-card group bg-slate-900/50 backdrop-blur-xl rounded-3xl p-6 md:p-8 flex flex-col items-center text-center">
+            <div class="card-bg bg-[url('https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&q=80&w=500')] bg-cover"></div>
             <div class="relative z-10">
-                <div class="w-20 h-20 bg-emerald-500/20 rounded-2xl flex items-center justify-center mb-6 mx-auto group-hover:bg-emerald-500/30 transition-colors">
-                    <span class="text-5xl floating" style="animation-delay: 0.8s;">🚀</span>
+                <div class="w-16 h-16 md:w-20 md:h-20 bg-blue-500/20 rounded-2xl flex items-center justify-center mb-4 md:mb-6 mx-auto group-hover:bg-blue-500/30 transition-colors">
+                    <span class="text-4xl md:text-5xl floating">⚽</span>
                 </div>
-                <h2 class="text-2xl font-bold mb-3">新维度开发中</h2>
-                <p class="text-slate-400 text-sm leading-relaxed mb-6">
-                    更多的互动实验正在孵化中。重力感应、AR 增强现实等新技术即将上线。
+                <h2 class="text-xl md:text-2xl font-bold mb-2 md:mb-3">球星性格匹配</h2>
+                <p class="text-slate-400 text-xs md:text-sm leading-relaxed mb-4 md:mb-6">
+                    通过专业心理测试题，精准匹配与你灵魂共鸣的现役足球巨星。
                 </p>
-                <div class="inline-flex items-center text-emerald-400 font-bold">
-                    COMING SOON
+                <div class="inline-flex items-center text-blue-400 text-sm md:text-base font-bold group-hover:translate-x-2 transition-transform">
+                    开启测试 <span class="ml-2">→</span>
                 </div>
             </div>
         </a>
+        <!-- 入口 4: 敬请期待 -->
+        <div class="entry-card group bg-slate-900/50 backdrop-blur-xl rounded-3xl p-6 md:p-8 flex flex-col items-center text-center opacity-80">
+            <div class="card-bg bg-[url('https://images.unsplash.com/photo-1614850523296-d8c1af93d400?auto=format&fit=crop&q=80&w=500')] bg-cover"></div>
+            <div class="relative z-10">
+                <div class="w-16 h-16 md:w-20 md:h-20 bg-emerald-500/20 rounded-2xl flex items-center justify-center mb-4 md:mb-6 mx-auto transition-colors">
+                    <span class="text-4xl md:text-5xl floating" style="animation-delay: 0.8s;">🚀</span>
+                </div>
+                <h2 class="text-xl md:text-2xl font-bold mb-2 md:mb-3">新维度开发中</h2>
+                <p class="text-slate-400 text-xs md:text-sm leading-relaxed mb-4 md:mb-6">
+                    更多的互动实验正在孵化中。重力感应、AR 增强现实等新技术即将上线。
+                </p>
+                <div class="inline-flex items-center text-emerald-400 text-xs md:text-sm font-bold">
+                    COMING SOON
+                </div>
+            </div>
+        </div>
+
+    </main>
+
     <!-- 页脚 -->
-    <footer class="mt-16 text-slate-600 text-xs">
+    <footer class="mt-4 mb-10 text-slate-600 text-xs">
         © 2024 Interactive Lab. All Rights Reserved.
     </footer>
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
