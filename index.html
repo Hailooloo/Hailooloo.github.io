@@ -46,38 +46,38 @@
         }
 
         .entry-card {
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             /* 设置最小高度确保内容不被压缩 */
-            min-height: 280px;
+            min-height: 240px;
         }
 
         /* 移动端特殊优化：点击态效果替代悬停 */
         .entry-card:active {
-            transform: scale(0.98);
+            transform: scale(0.96);
             background: rgba(30, 41, 59, 0.8);
         }
 
         @media (min-width: 768px) {
             .entry-card:hover {
                 transform: translateY(-10px) scale(1.02);
-                border-color: rgba(59, 130, 246, 0.5);
-                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+                border-color: rgba(59, 130, 246, 0.4);
+                box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
             }
         }
 
         .card-bg {
             position: absolute;
             inset: 0;
-            opacity: 0.15;
+            opacity: 0.1;
             transition: opacity 0.5s;
             z-index: 0;
         }
 
         .entry-card:hover .card-bg {
-            opacity: 0.3;
+            opacity: 0.2;
         }
 
         .floating {
@@ -185,8 +185,21 @@
                 </div>
             </div>
         </a>
-
-        <!-- 入口 5: Dashboard (顺延) -->
+       <!-- 入口 5: 竞拍之王  -->
+        <a href="https://hailooloo.github.io/BidKing/" class="entry-card group bg-slate-900/40 backdrop-blur-xl rounded-3xl p-6 flex flex-col items-center text-center">
+            <div class="card-bg bg-[url('https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&q=80&w=500')] bg-cover"></div>
+            <div class="relative z-10 w-full">
+                <div class="w-16 h-16 bg-amber-500/20 rounded-2xl flex items-center justify-center mb-4 mx-auto group-hover:bg-amber-500/30 transition-colors">
+                    <span class="text-4xl floating">💰</span>
+                </div>
+                <h2 class="text-xl font-bold mb-2">竞拍之王</h2>
+                <p class="text-slate-400 text-xs leading-relaxed mb-4">
+                    仓库寻宝博弈。在5轮报价中战胜AI对手，通过熔断机制夺取宝藏。
+                </p>
+                <div class="text-amber-400 text-sm font-bold">进入拍卖场 →</div>
+            </div>
+        </a>
+        <!-- 入口 6: Dashboard (顺延) -->
       <a href="https://hailooloo.github.io/Dashboard/" target="_blank" class="entry-card group bg-slate-900/50 backdrop-blur-xl rounded-3xl p-6 md:p-8 flex flex-col items-center text-center">
         <div class="entry-card group bg-slate-900/50 backdrop-blur-xl rounded-3xl p-6 md:p-8 flex flex-col items-center text-center opacity-80">
             <div class="card-bg bg-[url('https://images.unsplash.com/photo-1614850523296-d8c1af93d400?auto=format&fit=crop&q=80&w=500')] bg-cover"></div>
@@ -201,6 +214,65 @@
                 <div class="inline-flex items-center text-emerald-400 text-xs md:text-sm font-bold">
                    查看数据 <span class="ml-2">→</span>
                 </div>
+            </div>
+        </div>
+     <!-- 7. 备用页面 A (AI 绘画) -->
+        <div class="entry-card group bg-slate-900/40 backdrop-blur-xl rounded-3xl p-6 flex flex-col items-center text-center">
+            <div class="card-bg bg-gradient-to-br from-cyan-500/10 to-blue-500/10"></div>
+            <div class="relative z-10 w-full">
+                <div class="w-16 h-16 bg-cyan-500/20 rounded-2xl flex items-center justify-center mb-4 mx-auto">
+                    <span class="text-4xl floating" style="animation-delay: 1s;">🎨</span>
+                </div>
+                <h2 class="text-xl font-bold mb-2">AI 创意画廊</h2>
+                <p class="text-slate-400 text-xs leading-relaxed mb-4">
+                    对接扩散模型，生成个性化艺术作品（备用中）。
+                </p>
+                <div class="text-cyan-400 text-xs font-bold bg-cyan-900/30 px-3 py-1 rounded-full inline-block">COMING SOON</div>
+            </div>
+        </div>
+
+        <!-- 8. 备用页面 B (重力交互) -->
+        <div class="entry-card group bg-slate-900/40 backdrop-blur-xl rounded-3xl p-6 flex flex-col items-center text-center">
+            <div class="card-bg bg-gradient-to-br from-emerald-500/10 to-teal-500/10"></div>
+            <div class="relative z-10 w-full">
+                <div class="w-16 h-16 bg-emerald-500/20 rounded-2xl flex items-center justify-center mb-4 mx-auto">
+                    <span class="text-4xl floating" style="animation-delay: 1.2s;">📱</span>
+                </div>
+                <h2 class="text-xl font-bold mb-2">重力感应竞技</h2>
+                <p class="text-slate-400 text-xs leading-relaxed mb-4">
+                    利用手机陀螺仪实现的平衡木挑战（备用中）。
+                </p>
+                <div class="text-emerald-400 text-xs font-bold bg-emerald-900/30 px-3 py-1 rounded-full inline-block">COMING SOON</div>
+            </div>
+        </a>
+
+        <!-- 9. 备用页面 C (AR 互动) -->
+        <div class="entry-card group bg-slate-900/40 backdrop-blur-xl rounded-3xl p-6 flex flex-col items-center text-center">
+            <div class="card-bg bg-gradient-to-br from-pink-500/10 to-rose-500/10"></div>
+            <div class="relative z-10 w-full">
+                <div class="w-16 h-16 bg-pink-500/20 rounded-2xl flex items-center justify-center mb-4 mx-auto">
+                    <span class="text-4xl floating" style="animation-delay: 1.4s;">🕶️</span>
+                </div>
+                <h2 class="text-xl font-bold mb-2">AR 现实增强</h2>
+                <p class="text-slate-400 text-xs leading-relaxed mb-4">
+                    基于 WebXR 的实时滤镜与空间追踪演示（备用中）。
+                </p>
+                <div class="text-pink-400 text-xs font-bold bg-pink-900/30 px-3 py-1 rounded-full inline-block">COMING SOON</div>
+            </div>
+        </div>
+
+        <!-- 10. 备用页面 D (3D 实验室) -->
+        <div class="entry-card group bg-slate-900/40 backdrop-blur-xl rounded-3xl p-6 flex flex-col items-center text-center">
+            <div class="card-bg bg-gradient-to-br from-orange-500/10 to-yellow-500/10"></div>
+            <div class="relative z-10 w-full">
+                <div class="w-16 h-16 bg-orange-500/20 rounded-2xl flex items-center justify-center mb-4 mx-auto">
+                    <span class="text-4xl floating" style="animation-delay: 1.6s;">🧊</span>
+                </div>
+                <h2 class="text-xl font-bold mb-2">3D 视觉实验室</h2>
+                <p class="text-slate-400 text-xs leading-relaxed mb-4">
+                    基于 Three.js 的极致视觉渲染体验（备用中）。
+                </p>
+                <div class="text-orange-400 text-xs font-bold bg-orange-900/30 px-3 py-1 rounded-full inline-block">COMING SOON</div>
             </div>
         </div>
 
